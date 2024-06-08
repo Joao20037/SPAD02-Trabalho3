@@ -1,4 +1,3 @@
-# view.py
 from controller import Controller
 
 class View:

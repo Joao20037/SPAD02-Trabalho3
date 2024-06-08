@@ -1,8 +1,8 @@
-import psycopg2
+import psycopg
 
 class Dao:
     def __init__(self, dbname, user, password, host='localhost', port=5432):
-        self.conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+        self.conn = psycopg.connect(dbname=dbname, user=user, password=password, host=host, port=port)
         self.cur = self.conn.cursor()
         self.cur.execute("SET search_path TO northwind;")
 

@@ -1,12 +1,9 @@
-# controller.py
 from datetime import datetime
 from dao import Dao
 
 class Controller:
     def __init__(self, dbname, user, password):
         self.dao = Dao(dbname, user, password)
-
-    
 
     def insert_order(self):
         customer_id = input("Digite o ID do cliente (varchar): ")
