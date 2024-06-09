@@ -55,17 +55,17 @@ class Dao:
 
     def get_employee_ranking(self, start_date, end_date):
         try:
-            sql = "SELECT e.lastname, COUNT(o.orderid), SUM(od.quantity * od.unitprice) " \
+            sql = "SELECT e.lastname, COUNT(o.orderid), SUM(od.quantity * od.unitprice) AS total_sales " \
                 "FROM employees e " \
                 "JOIN orders o ON e.employeeid = o.employeeid " \
                 "JOIN order_details od ON o.orderid = od.orderid " \
                 "WHERE o.orderdate BETWEEN %s AND %s " \
                 "GROUP BY e.lastname " \
-                "ORDER BY COUNT(o.orderid) DESC;"
+                "ORDER BY total_sales DESC;"
             self.cur.execute(sql, (start_date, end_date))
             return self.cur.fetchall()
         except Exception as e:
-                print("Ocorreu um erro ao gerar relatório:", e)
+            print("Ocorreu um erro ao gerar relatório:", e)
     
     def get_next_order_id(self):
         try:
