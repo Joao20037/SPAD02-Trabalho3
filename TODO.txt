@@ -4,3 +4,4 @@ TODO
 [] controllerORM faze-lo com base no controllerDriver
 [x] modelORM 
 [] Comentar todo o código
+[] Colocar trys para cada um
