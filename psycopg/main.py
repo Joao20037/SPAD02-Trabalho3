@@ -1,9 +1,9 @@
 from view import View
 
 def main():
-    dbname = 'postgres'
+    dbname = 'northwind'
     user = 'postgres'
-    password = '2018'
+    password = 'root'
 
     app = View(dbname, user, password)
     app.run()

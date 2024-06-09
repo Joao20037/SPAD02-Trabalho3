@@ -1,10 +1,10 @@
 import sqlalchemy
-from psycopg.model_ORM import *
+from model_ORM import *
 
 class Dao_ORM:
     
     def __init__(self, dbname, user, password, host="localhost", port=5432):
-
+        # print(f"postgresql+psycopg://{user}:{password}@{host}:{port}/{dbname}")
         self.engine = sqlalchemy.create_engine(f"postegresql+psycopg://{user}:{password}@{host}:{port}/{dbname}")
 
     def create_session(self):
@@ -100,11 +100,13 @@ class Dao_ORM:
             print("Não foi possível recuperar o próximo orderid:", e)
     
     def get_unit_price(self, product_id):
+        try:
+            session = self.create_session()
 
-        session = self.create_session()
+            unit_price = session.query(Product.unitprice).filter(Product.productid == product_id)
 
-        unit_price = session.query(Product.unitprice).filter(Product.productid == product_id)
+            session.close()
 
-        session.close()
-
-        return unit_price
+            return unit_price
+        except Exception as e:
+            print(f"Não foi possivel recuperar o preço unitário de {product_id}: {e}")

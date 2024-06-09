@@ -7,15 +7,11 @@ class Controller:
     def __init__(self):
         self.dao = None
     
-    @property
-    def dao(self):
-        return self.dao
-
     def set_dao(self, type_dao, dbname, user, password):
         if type_dao == "1":
-            self.dao = Dao_Driver(dbname=dbname, user=user, password=password)
-        if type_dao == "2":
             self.dao = Dao_ORM(dbname=dbname, user=user, password=password)
+        if type_dao == "2":
+            self.dao = Dao_Driver(dbname=dbname, user=user, password=password)
 
     def insert_order(self, order_id, customer_id, employee_id):
         order_date = datetime.now().date()
