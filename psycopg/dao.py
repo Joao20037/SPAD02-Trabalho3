@@ -1,7 +1,7 @@
 import psycopg
 from model import Order, OrderDetail, Customer, Employee, Product
 
-class Dao:
+class Dao_Driver:
     def __init__(self, dbname, user, password, host='localhost', port=5432):
         self.conn = psycopg.connect(dbname=dbname, user=user, password=password, host=host, port=port)
         self.cur = self.conn.cursor()
@@ -27,7 +27,7 @@ class Dao:
             self.cur.execute(sql, (order_details.orderid, order_details.productid, order_details.quantity, order_details.unitprice))
             self.conn.commit()
         except Exception as e:
-            print("Ocorreu um erro ao inserir o pedido:", e)
+            print("Ocorreu um erro ao inserir os detalhes do pedido:", e)
             
 
     def get_order_details(self, order_id):
@@ -77,10 +77,13 @@ class Dao:
             print("Não foi possível recuperar o próximo orderid:", e)
     
     def get_unit_price(self, product_id):
-        sql = "SELECT unitprice FROM products WHERE productid = %s;"
-        self.cur.execute(sql, (product_id,))
-        result = self.cur.fetchone()
-        if result:
-            return result[0]
-        else:
-            return None
+        try:
+            sql = "SELECT unitprice FROM products WHERE productid = %s;"
+            self.cur.execute(sql, (product_id,))
+            result = self.cur.fetchone()
+            if result:
+                return result[0]
+            else:
+                return None
+        except Exception as e:
+            print(f"Não foi possivel recuperar o preço unitário de {product_id}: {e}")

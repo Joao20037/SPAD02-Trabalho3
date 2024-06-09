@@ -2,7 +2,10 @@ from controller import Controller
 
 class View:
     def __init__(self, dbname, user, password):
-        self.controller = Controller(dbname, user, password)
+        self.dbname = dbname
+        self.user = user
+        self.password = password
+        self.controller = Controller()
 
     def get_order_info_from_user(self):
         try:
@@ -37,15 +40,27 @@ class View:
         return order_details
 
     def display_menu(self):
+
         print("\nMenu:")
+        print("Modo de conexão")
+        print("1. ORM (Object-Relational Mapping)")
+        print("2. Driver de conexão")
+        driver = input("Escolha uma opção: ")
+        if driver == "1": self.controller.set_dao(driver, self.dbname, self.user, self.password)
+        elif driver == "2": self.controller.set_dao(driver, self.dbname, self.user, self.password)
+        else: 
+            print("Entrada Invalida!")
+            return False
         print("1. Inserir Pedido")
         print("2. Obter Informações do Pedido")
         print("3. Obter Ranking de Funcionários")
         print("4. Sair")
+        return True
 
     def run(self):
         while True:
-            self.display_menu()
+            driver_bool = self.display_menu()
+            if not driver_bool: continue
             choice = input("Escolha uma opção: ")
 
             if choice == '1':
