@@ -1,33 +1,27 @@
-from datetime import datetime
 from dao import Dao
+from model import Order, OrderDetail
+from datetime import datetime
 
 class Controller:
     def __init__(self, dbname, user, password):
         self.dao = Dao(dbname, user, password)
 
-    def insert_order(self):
-        customer_id = input("Digite o ID do cliente (varchar): ")
-        employee_id = input("Digite o ID do vendedor (int): ")
-        order_id = self.dao.get_next_order_id()  
+    def insert_order(self, order_id, customer_id, employee_id):
         order_date = datetime.now().date()
+        order = Order(orderid=order_id, customerid=customer_id, employeeid=employee_id, orderdate=order_date)
+        self.dao.insert_order(order)
 
-        self.dao.insert_order(order_id, customer_id, employee_id, order_date)
+    def insert_order_details(self, order_details):
+        for order_detail in order_details:
+            order_detail_obj = OrderDetail(orderid=order_detail[0], productid=order_detail[1], unitprice=order_detail[2], quantity=order_detail[3])
+            self.dao.insert_order_detail(order_detail_obj)
 
-        while True:
-            product_id = input("Digite o ID do produto (ou 'fim' para encerrar): ")
-            if product_id.lower() == 'fim':
-                break
-            
-            unit_price = self.dao.get_unit_price(product_id)
-            if unit_price is None:
-                print("Produto não encontrado. Por favor, insira um ID de produto válido.")
-                continue
-            
-            quantity = int(input("Digite a quantidade: "))
-            self.dao.insert_order_detail(order_id, product_id, quantity, unit_price)
+    def get_unit_price(self, product_id):
+        return self.dao.get_unit_price(product_id)
 
-        print("Pedido inserido com sucesso!")
-
+    def get_next_order_id(self):
+        return self.dao.get_next_order_id()
+    
     def get_order_info(self, order_id):
         order_info = self.dao.get_order_info(order_id)
         if order_info:
