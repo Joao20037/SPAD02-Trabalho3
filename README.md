@@ -2,7 +2,7 @@
 ## SPAD02 - BANCO DE DADOS II
 
 #### Integrantes:
- → Gabriel Ribeiro
+ → Gabriel de Souza Ribeiro
  
  → João Lucas Moraes de Oliveira
 
