@@ -72,7 +72,7 @@ class View:
                     if order_details:
                         self.controller.insert_order(order_id, customer_id, employee_id)
                         self.controller.insert_order_details(order_details)
-                        print("Pedido inserido com sucesso!")
+                        print(f"Pedido inserido com sucesso! ID do Pedido: {order_id}")
                     else:
                         print("Não foram fornecidos detalhes do pedido. Pedido não foi inserido.")
                 except Exception as e:
