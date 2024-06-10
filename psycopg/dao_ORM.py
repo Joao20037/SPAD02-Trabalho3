@@ -20,21 +20,22 @@ class Dao_ORM:
 
             session.commit()
 
-            order = session.query(model_order)
+            order = session.query(Order).filter(Order.orderid == model_order.orderid).first()
 
             session.close()
 
-            return order.id    
+            return order.orderid    
         except Exception as e:
             print(f"Ocorreu um erro ao inserir o pedido: {e}")
+
     def insert_order_detail(self, model_detail):
         try:
             session = self.create_session()
 
             session.add(model_detail)
 
-            session.commit()
             session.close()
+
         except Exception as e:
             print(f"Ocorreu um erro ao inserir os detalhes do pedido: {e}")
 
