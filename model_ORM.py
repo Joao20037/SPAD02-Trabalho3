@@ -144,5 +144,5 @@ class OrderDetail(Base):
     quantity = Column(SmallInteger)
     discount = Column(Numeric(10, 4))
 
-    order = relationship('Order', overlaps="orderDetail_collection")
-    product = relationship('Product', overlaps="orderDetail_collection")
+    order = relationship('Order')
+    product = relationship('Product')

@@ -34,6 +34,8 @@ class Dao_ORM:
 
             session.add(model_detail)
 
+            session.commit()
+            
             session.close()
 
         except Exception as e:
