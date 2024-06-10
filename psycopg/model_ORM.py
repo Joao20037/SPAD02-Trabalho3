@@ -16,7 +16,7 @@ class Category(Base):
     categoryid = Column(Integer, primary_key=True)
     categoryname = Column(String(50))
     description = Column(String(100))
-    product_collection = relationship('Product')
+    product_collection = relationship('Product', overlaps="category")
 
 
 
@@ -36,7 +36,7 @@ class Customer(Base):
     phone = Column(String(17))
     fax = Column(String(17))
 
-    order_collection = relationship("Order")
+    order_collection = relationship("Order", overlaps="customer")
 
 
 class Employee(Base):
@@ -59,7 +59,7 @@ class Employee(Base):
     extension = Column(String(4))
     reportsto = Column(Integer)
     notes = Column(Text)
-    order_collection = relationship("Order")
+    order_collection = relationship("Order", overlaps="employee")
 
 
 class Shipper(Base):
@@ -87,7 +87,7 @@ class Supplier(Base):
     phone = Column(String(15))
     fax = Column(String(15))
     homepage = Column(String(100))
-    product_collection = relationship('Product')
+    product_collection = relationship('Product', overlaps="supplier")
 
 
 class Order(Base):
@@ -109,9 +109,9 @@ class Order(Base):
     shipcountry = Column(String(15))
     shipperid = Column(Integer)
 
-    customer = relationship('Customer')
-    employee = relationship('Employee')
-    ordeDetail_collection = relationship("OrderDetail")
+    customer = relationship('Customer', overlaps="order_collection")
+    employee = relationship('Employee', overlaps="order_collection")
+    ordeDetail_collection = relationship("OrderDetail", overlaps="order")
 
 
 class Product(Base):
@@ -129,9 +129,9 @@ class Product(Base):
     reorderlevel = Column(SmallInteger)
     discontinued = Column(String(1))
 
-    category = relationship('Category')
-    supplier = relationship('Supplier')
-    ordeDetail_collection = relationship("OrderDetail")
+    category = relationship('Category', overlaps="product_collection")
+    supplier = relationship('Supplier', overlaps="product_collection")
+    ordeDetail_collection = relationship("OrderDetail", overlaps="product")
 
 
 class OrderDetail(Base):
@@ -144,5 +144,5 @@ class OrderDetail(Base):
     quantity = Column(SmallInteger)
     discount = Column(Numeric(10, 4))
 
-    order = relationship('Order')
-    product = relationship('Product')
+    order = relationship('Order', overlaps="orderDetail_collection")
+    product = relationship('Product', overlaps="orderDetail_collection")
